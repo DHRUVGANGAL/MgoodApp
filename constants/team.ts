@@ -9,6 +9,9 @@ export const IMAGES = {
   mgoodRajendra: require('../assets/images/mgood-rajendra.jpg'),
 };
 
+// Debug: Log image imports
+console.log('Team images loaded:', Object.keys(IMAGES));
+
 export interface Testimonial {
   id: string;
   quote: string;

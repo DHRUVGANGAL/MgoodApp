@@ -1,51 +1,129 @@
-# Welcome to your Expo app 👋
+# MGood Application 🚀
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A professional React Native/Expo application built with TypeScript, featuring a modern and scalable architecture.
 
-## Get started
+## 🏗️ Project Structure
 
-1. Install dependencies
+This project follows industry best practices with a well-organized folder structure:
 
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Basic UI components
+│   ├── layout/         # Layout components
+│   └── features/       # Feature-specific components
+├── config/             # Configuration files
+├── hooks/              # Custom React hooks
+├── services/           # External service integrations
+├── styles/             # Styling and theming
+├── types/              # TypeScript type definitions
+├── utils/              # Utility functions
+└── index.ts           # Main entry point
+```
+
+For detailed structure information, see [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Expo CLI
+- iOS Simulator (for iOS development)
+- Android Studio (for Android development)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd MgoodApplication
+   ```
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Start the development server**
    ```bash
+   npm start
+   # or
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run on your preferred platform**
+   - Press `i` for iOS Simulator
+   - Press `a` for Android Emulator
+   - Press `w` for Web
+   - Scan QR code with Expo Go app
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Development
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Available Scripts
 
-## Get a fresh project
+- `npm start` - Start the Expo development server
+- `npm run android` - Run on Android device/emulator
+- `npm run ios` - Run on iOS device/simulator
+- `npm run web` - Run on web browser
+- `npm run lint` - Run ESLint
+- `npm run reset-project` - Reset to a fresh project state
 
-When you're ready, run:
+### Code Organization
 
-```bash
-npm run reset-project
-```
+- **Components**: Reusable UI components organized by type
+- **Services**: API calls and external integrations
+- **Hooks**: Custom React hooks for shared logic
+- **Types**: TypeScript type definitions
+- **Styles**: Centralized theming and styling
+- **Utils**: Helper functions and utilities
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Best Practices
 
-## Learn more
+- Follow the established folder structure
+- Use TypeScript for all new code
+- Implement proper error handling
+- Write clean, documented code
+- Use the theme system for consistent styling
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📱 Features
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Cross-platform (iOS, Android, Web)
+- TypeScript support
+- Professional folder structure
+- Theme system with dark/light mode
+- Service layer for API integration
+- Custom hooks for shared logic
 
-## Join the community
+## 🎨 Theming
 
-Join our community of developers creating universal apps.
+The app uses a centralized theme system located in `src/styles/themes/`:
+- **Colors**: Light and dark mode color schemes
+- **Typography**: Font families, sizes, and weights
+- **Spacing**: Consistent spacing and layout tokens
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# MgoodApp
+## 🔧 Configuration
+
+- Environment variables in `.env` files
+- Expo configuration in `app.json`
+- TypeScript configuration in `tsconfig.json`
+- ESLint configuration in `eslint.config.js`
+
+## 📚 Documentation
+
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Detailed project structure
+- [src/README.md](./src/README.md) - Source code organization
+- [Expo Documentation](https://docs.expo.dev/) - Expo framework docs
+
+## 🤝 Contributing
+
+1. Follow the established code style
+2. Use the professional folder structure
+3. Add proper TypeScript types
+4. Update documentation as needed
+5. Test your changes thoroughly
+
+## 📄 License
+
+This project is licensed under the MIT License.
