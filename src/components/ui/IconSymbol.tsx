@@ -22,6 +22,7 @@ const MAPPING = {
   'person.circle.fill': 'account-circle',
   'building.2.fill': 'business',
   'info.circle.fill': 'info',
+  'cube.fill': 'widgets',
 } as IconMapping;
 
 /**
