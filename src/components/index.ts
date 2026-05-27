@@ -12,6 +12,6 @@ export * from './ThemedText';
 export * from './ThemedView';
 
 // Feature Components
-export * from './about/ChairmanSection';
+export * from './about/MentorsSection';
 export * from './about/InfoSection';
 export * from './about/TeamSection';

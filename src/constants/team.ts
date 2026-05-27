@@ -7,10 +7,11 @@ export const IMAGES = {
   mgoodGarima: require('../../assets/images/mgood-garima.jpg'),
   mgoodKrishna: require('../../assets/images/mgood-krishna.jpg'),
   mgoodRajendra: require('../../assets/images/mgood-rajendra.jpg'),
+  mgoodBlAgrawal: require('../../assets/images/mgood-bl-agrawal.jpg'),
+  mgoodMahavir: require('../../assets/images/mgood-mahavir.jpg'),
+  profile: require('../../assets/images/profile.jpg'),
 };
 
-// Debug: Log image imports
-console.log('Team images loaded:', Object.keys(IMAGES));
 
 export interface Testimonial {
   id: string;

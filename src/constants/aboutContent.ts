@@ -4,11 +4,41 @@ export const aboutMGoodText =
 export const aboutIndiaText =
   "India's healthcare landscape is vast and diverse. While it has made significant strides, challenges in accessibility and affordability remain. MGood aims to bridge these gaps by leveraging technology to bring healthcare to your fingertips.";
 
-export const chairmanMessage = {
-  intro:
-    'At MGood, our vision is to redefine the future of healthcare in India. We are driven by a commitment to excellence and a passion for service. Our mission is simple yet profound: ',
-  mission:
-    'to ensure that every individual has the right to quality healthcare, regardless of their location or economic status.',
-  conclusion:
-    ' We are building a healthier tomorrow, one patient at a time. Thank you for being a part of our journey.',
-};
+export const mentorsSubtitle =
+  'We are humbled to have visionary leaders mentoring us with over 100+ years of combined experience in public service. Their leadership, administrative excellence, and guidance continue to inspire MGood in our mission to make healthcare accessible to millions.';
+
+export interface Mentor {
+  id: string;
+  name: string;
+  role: string;
+  badge: string;
+  description: string;
+  imageKey: string;
+}
+
+export const mentors: Mentor[] = [
+  {
+    id: 'rajendra-agrawal',
+    name: 'Sh. Rajendra Agrawal',
+    role: 'Leadership Mentor',
+    badge: '36 Years - UP Government',
+    description: 'A visionary leader with extensive expertise in governance, infrastructure, and administration, contributing decades of strategic insight and mentorship to impactful initiatives.',
+    imageKey: 'mgoodRajendra',
+  },
+  {
+    id: 'bl-agrawal',
+    name: 'Sh. BL Agrawal',
+    role: 'Administrative Mentor',
+    badge: 'ADM Across Multiple Districts',
+    description: 'Ex - Joint Development Director & Additional District Magistrate, Hardoi. A distinguished public servant whose mentorship and guidance continue to strengthen MGood\'s mission and long-term vision.',
+    imageKey: 'mgoodBlAgrawal',
+  },
+  {
+    id: 'mahavir-singh-arya',
+    name: 'Sh. Mahavir Singh Arya',
+    role: 'Infrastructure & Governance Mentor',
+    badge: 'Ex - Head Noida Authority & NHAI',
+    description: 'Served as ADM in Bulandshahar, Agra, Saharanpur, Meerut & Moradabad. Bringing decades of administrative excellence and public service leadership to mentor MGood\'s growth journey.',
+    imageKey: 'mgoodMahavir',
+  },
+];
