@@ -21,17 +21,6 @@ interface FeaturesSectionProps {
 export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, onCallPress, onRegistrationPress }) => {
   return (
     <View style={styles.featuresSection}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.featuresTitle}>
-          Healthy Employees, Happy Organization
-        </Text>
-        <Text style={styles.featuresSubtitle}>
-          At MGood, we go beyond traditional corporate wellness. Our integrated approach combines health optimization, employee engagement, wellness benefits and strategic cost management to ensure your workforce thrives — physically, mentally, and financially. Together, we create a long-term, mutually beneficial model that reduces claims, controls premiums, and enhances overall organizational well-being
-        </Text>
-      </View>
-
-
-
       <LinearGradient
         colors={['#2563eb', '#8b5cf6']}
         style={styles.ctaCard}
@@ -55,6 +44,15 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, onCa
           </View>
         </View>
       </LinearGradient>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.featuresTitle}>
+          Healthy Employees, Happy Organization
+        </Text>
+        <Text style={styles.featuresSubtitle}>
+          At MGood, we go beyond traditional corporate wellness. Our integrated approach combines health optimization, employee engagement, wellness benefits and strategic cost management to ensure your workforce thrives — physically, mentally, and financially. Together, we create a long-term, mutually beneficial model that reduces claims, controls premiums, and enhances overall organizational well-being
+        </Text>
+      </View>
+
       <View style={styles.featuresGrid}>
         {features.map((feature, index) => (
           <FeatureCard key={index} {...feature} />
@@ -62,13 +60,14 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, onCa
       </View>
     </View>
 
-    
+
   );
 };
 
 const styles = StyleSheet.create({
   featuresSection: {
-    paddingVertical: 80,
+    paddingTop: 8,
+    paddingBottom: 32,
     backgroundColor: 'white',
     paddingHorizontal: 20,
   },
@@ -96,7 +95,6 @@ const styles = StyleSheet.create({
   ctaCard: {
     borderRadius: 24,
     padding: 32,
-    marginTop: 64,
     marginBottom: 64,
   },
   ctaContent: {

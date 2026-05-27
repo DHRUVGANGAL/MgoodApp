@@ -33,7 +33,6 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
   onFormDataChange,
   onSubmit,
 }) => {
-  // Dropdown options
   const genderOptions = [
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' },
@@ -65,48 +64,65 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
     { label: 'High', value: 'high' },
     { label: 'Emergency', value: 'emergency' },
   ];
+
   return (
-    <View style={styles.formContainer}>
-      <Text style={styles.formTitle}>Individual Request Form</Text>
-      
+    <View style={styles.formWrapper}>
+      {/* Form Header */}
+      <View style={styles.formHeader}>
+        <View style={styles.formHeaderIcon}>
+          <Ionicons name="document-text-outline" size={20} color="#0d9488" />
+        </View>
+        <View>
+          <Text style={styles.formTitle}>Request Form</Text>
+          <Text style={styles.formSubtitle}>Takes about 2 minutes to fill</Text>
+        </View>
+      </View>
+
+      {/* Divider */}
+      <View style={styles.divider} />
+
       {error ? (
         <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={16} color="#dc2626" />
           <Text style={styles.errorText}>{error}</Text>
         </View>
       ) : null}
 
       {submitted ? (
         <View style={styles.successContainer}>
-          <Ionicons name="checkmark-circle" size={48} color="#10B981" />
-          <Text style={styles.successTitle}>Request Submitted Successfully!</Text>
-          <Text style={styles.successMessage}>We'll get back to you within 24 hours.</Text>
+          <View style={styles.successIconWrap}>
+            <Ionicons name="checkmark-circle" size={48} color="#10B981" />
+          </View>
+          <Text style={styles.successTitle}>Request Submitted</Text>
+          <Text style={styles.successMessage}>We'll reach out to you within 24 hours.</Text>
         </View>
       ) : (
         <>
-          {/* Full Name */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Full Name</Text>
-            <View style={styles.inputContainer}>
-              <Ionicons name="person-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
+          {/* ── Personal Info Section ── */}
+          <Text style={styles.sectionLabel}>Personal Information</Text>
+
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Full Name <Text style={styles.required}>*</Text></Text>
+            <View style={styles.inputRow}>
+              <Ionicons name="person-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
               <TextInput
-                style={styles.textInput}
+                style={styles.input}
                 placeholder="e.g. Alex Morgan"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#9ca3af"
                 value={formData.fullName}
                 onChangeText={(text) => onFormDataChange('fullName', text)}
               />
             </View>
           </View>
 
-          {/* Email */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Email Address</Text>
-            <View style={styles.inputContainer}>
-              <Ionicons name="mail-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Email <Text style={styles.required}>*</Text></Text>
+            <View style={styles.inputRow}>
+              <Ionicons name="mail-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
               <TextInput
-                style={styles.textInput}
+                style={styles.input}
                 placeholder="you@example.com"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#9ca3af"
                 value={formData.email}
                 onChangeText={(text) => onFormDataChange('email', text)}
                 keyboardType="email-address"
@@ -115,15 +131,14 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
             </View>
           </View>
 
-          {/* Phone Number */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Phone Number</Text>
-            <View style={styles.inputContainer}>
-              <Ionicons name="call-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Phone <Text style={styles.required}>*</Text></Text>
+            <View style={styles.inputRow}>
+              <Ionicons name="call-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
               <TextInput
-                style={styles.textInput}
+                style={styles.input}
                 placeholder="+91 9876543210"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#9ca3af"
                 value={formData.phoneNumber}
                 onChangeText={(text) => onFormDataChange('phoneNumber', text)}
                 keyboardType="phone-pad"
@@ -131,24 +146,22 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
             </View>
           </View>
 
-          {/* Date of Birth */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Date of Birth</Text>
-            <View style={styles.inputContainer}>
-              <Ionicons name="calendar-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Date of Birth</Text>
+            <View style={styles.inputRow}>
+              <Ionicons name="calendar-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
               <TextInput
-                style={styles.textInput}
+                style={styles.input}
                 placeholder="DD/MM/YYYY"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#9ca3af"
                 value={formData.dateOfBirth}
                 onChangeText={(text) => onFormDataChange('dateOfBirth', text)}
               />
             </View>
           </View>
 
-          {/* Gender */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Gender</Text>
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Gender</Text>
             <DropdownSelect
               options={genderOptions}
               value={formData.gender}
@@ -157,47 +170,47 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
             />
           </View>
 
-          {/* Service Type */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Service Type</Text>
+          {/* ── Service Details Section ── */}
+          <View style={styles.sectionDivider} />
+          <Text style={styles.sectionLabel}>Service Details</Text>
+
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Service Type <Text style={styles.required}>*</Text></Text>
             <DropdownSelect
               options={serviceTypeOptions}
               value={formData.serviceType}
-              placeholder="Select a service"
+              placeholder="What do you need help with?"
               onValueChange={(value) => onFormDataChange('serviceType', value)}
             />
           </View>
 
-          {/* Preferred Contact Method */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Preferred Contact Method</Text>
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Preferred Contact</Text>
             <DropdownSelect
               options={contactMethodOptions}
               value={formData.preferredContactMethod}
-              placeholder="Phone, Email, or SMS"
+              placeholder="How should we reach you?"
               onValueChange={(value) => onFormDataChange('preferredContactMethod', value)}
             />
           </View>
 
-          {/* Urgency Level */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Urgency Level</Text>
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Urgency</Text>
             <DropdownSelect
               options={urgencyOptions}
               value={formData.urgencyLevel}
-              placeholder="Low, Medium, High, Emergency"
+              placeholder="How urgent is this?"
               onValueChange={(value) => onFormDataChange('urgencyLevel', value)}
             />
           </View>
 
-          {/* Request Details */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Request Details</Text>
-            <View style={styles.textAreaContainer}>
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Describe your needs <Text style={styles.required}>*</Text></Text>
+            <View style={styles.textAreaWrap}>
               <TextInput
                 style={styles.textArea}
-                placeholder="Please provide a brief description of your healthcare needs..."
-                placeholderTextColor="#6B7280"
+                placeholder="Tell us what's going on — symptoms, concerns, or questions…"
+                placeholderTextColor="#9ca3af"
                 value={formData.requestDetails}
                 onChangeText={(text) => onFormDataChange('requestDetails', text)}
                 multiline
@@ -207,14 +220,13 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
             </View>
           </View>
 
-          {/* Medical History */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Medical History (Optional)</Text>
-            <View style={styles.textAreaContainer}>
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Medical History <Text style={styles.optional}>(optional)</Text></Text>
+            <View style={styles.textAreaWrap}>
               <TextInput
-                style={styles.textArea}
-                placeholder="Any relevant medical conditions or history..."
-                placeholderTextColor="#6B7280"
+                style={[styles.textArea, { minHeight: 80 }]}
+                placeholder="Any existing conditions, allergies, or medications…"
+                placeholderTextColor="#9ca3af"
                 value={formData.medicalHistory}
                 onChangeText={(text) => onFormDataChange('medicalHistory', text)}
                 multiline
@@ -224,16 +236,22 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
             </View>
           </View>
 
-          {/* Submit Button */}
-          <TouchableOpacity 
-            style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]} 
+          {/* Submit */}
+          <TouchableOpacity
+            style={[styles.submitBtn, isSubmitting && styles.submitBtnDisabled]}
             onPress={onSubmit}
             disabled={isSubmitting}
+            activeOpacity={0.85}
           >
-            <Text style={styles.submitButtonText}>
-              {isSubmitting ? 'Submitting...' : 'Submit Request'}
+            <Text style={styles.submitBtnText}>
+              {isSubmitting ? 'Submitting…' : 'Submit Request'}
             </Text>
+            {!isSubmitting && <Ionicons name="arrow-forward" size={18} color="#ffffff" />}
           </TouchableOpacity>
+
+          <Text style={styles.disclaimer}>
+            By submitting, you agree to our privacy policy. We never share your data.
+          </Text>
         </>
       )}
     </View>
@@ -241,108 +259,181 @@ const IndividualRegistrationForm: React.FC<IndividualRegistrationFormProps> = ({
 };
 
 const styles = StyleSheet.create({
-  formContainer: {
+  formWrapper: {
     backgroundColor: '#ffffff',
-    marginHorizontal: 24,
-    marginBottom: 180, // Increased bottom margin to avoid tab bar
-    padding: 24,
-    paddingBottom: 40, // Extra padding at bottom for button
-    borderRadius: 16,
+    marginHorizontal: 20,
+    marginBottom: 140,
+    borderRadius: 18,
+    padding: 22,
+    borderWidth: 1,
+    borderColor: '#f1f5f9',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOpacity: 0.04,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+
+  // ── Form Header ──
+  formHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  formHeaderIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    backgroundColor: '#f0fdfa',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   formTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    marginBottom: 24,
-    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#111827',
   },
-  errorContainer: {
-    backgroundColor: '#FEF2F2',
-    borderColor: '#FECACA',
+  formSubtitle: {
+    fontSize: 12,
+    color: '#9ca3af',
+    marginTop: 1,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#f1f5f9',
+    marginVertical: 18,
+  },
+
+  // ── Section Labels ──
+  sectionLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#6b7280',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 14,
+  },
+  sectionDivider: {
+    height: 1,
+    backgroundColor: '#f1f5f9',
+    marginTop: 6,
+    marginBottom: 18,
+  },
+
+  // ── Field Groups ──
+  fieldGroup: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 6,
+  },
+  required: {
+    color: '#ef4444',
+    fontWeight: '400',
+  },
+  optional: {
+    color: '#9ca3af',
+    fontWeight: '400',
+    fontSize: 12,
+  },
+
+  // ── Inputs ──
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
     borderWidth: 1,
-    borderRadius: 8,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: '#1f2937',
+  },
+  textAreaWrap: {
+    backgroundColor: '#f9fafb',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    padding: 14,
+  },
+  textArea: {
+    fontSize: 15,
+    color: '#1f2937',
+    minHeight: 100,
+    lineHeight: 21,
+  },
+
+  // ── Submit Button ──
+  submitBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0d9488',
+    paddingVertical: 15,
+    borderRadius: 12,
+    gap: 8,
+    marginTop: 8,
+  },
+  submitBtnDisabled: {
+    backgroundColor: '#94a3b8',
+  },
+  submitBtnText: {
+    color: '#ffffff',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  disclaimer: {
+    fontSize: 11,
+    color: '#9ca3af',
+    textAlign: 'center',
+    marginTop: 12,
+    lineHeight: 16,
+  },
+
+  // ── Feedback States ──
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#fef2f2',
+    borderWidth: 1,
+    borderColor: '#fecaca',
+    borderRadius: 10,
     padding: 12,
     marginBottom: 16,
   },
   errorText: {
-    color: '#DC2626',
-    fontSize: 14,
-    textAlign: 'center',
+    color: '#dc2626',
+    fontSize: 13,
+    flex: 1,
   },
   successContainer: {
     alignItems: 'center',
-    paddingVertical: 32,
+    paddingVertical: 40,
+  },
+  successIconWrap: {
+    marginBottom: 12,
   },
   successTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#10B981',
-    marginTop: 16,
-    marginBottom: 8,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 6,
   },
   successMessage: {
-    fontSize: 16,
-    color: '#6B7280',
+    fontSize: 14,
+    color: '#6b7280',
     textAlign: 'center',
-  },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#1F2937',
-  },
-  textAreaContainer: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    padding: 16,
-  },
-  textArea: {
-    fontSize: 16,
-    color: '#1F2937',
-    minHeight: 100,
-  },
-  submitButton: {
-    backgroundColor: '#3B82F6',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  submitButtonDisabled: {
-    backgroundColor: '#9CA3AF',
-  },
-  submitButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
   },
 });
 

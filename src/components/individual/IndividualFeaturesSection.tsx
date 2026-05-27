@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -13,64 +14,95 @@ const IndividualFeaturesSection: React.FC<IndividualFeaturesSectionProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      {/* Hero Section */}
-      <View style={styles.heroSection}>
-        <Text style={styles.heroTitle}>Personal Healthcare Services</Text>
-        <Text style={styles.heroSubtitle}>Get personalized healthcare solutions tailored to your needs</Text>
-      </View>
-
-      {/* Features Grid */}
-      <View style={styles.featuresGrid}>
-        <View style={styles.featureCard}>
-          <View style={styles.featureIconContainer}>
-            <Ionicons name="medical" size={32} color="#3B82F6" />
+      {/* CTA Gradient Card — same pattern as corporate */}
+      <LinearGradient
+        colors={['#0d9488', '#14b8a6']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.ctaCard}
+      >
+        <View style={styles.ctaContent}>
+          <Text style={styles.ctaTitle}>
+            Your Health, Our Priority
+          </Text>
+          <Text style={styles.ctaSubtitle}>
+            From consultations to diagnostics — get personalised care built around your needs, not a template.
+          </Text>
+          <View style={styles.ctaButtons}>
+            <TouchableOpacity style={styles.primaryButton} onPress={onRegistrationPress}>
+              <Text style={styles.primaryButtonText}>Fill Request Form</Text>
+              <Ionicons name="arrow-forward" size={18} color="#0d9488" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.secondaryButton} onPress={onCallPress}>
+              <Ionicons name="call" size={18} color="#ffffff" />
+              <Text style={styles.secondaryButtonText}>Call: +91-8923894358</Text>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.featureTitle}>24/7 Medical Support</Text>
-          <Text style={styles.featureDescription}>Round-the-clock healthcare assistance and emergency support</Text>
         </View>
-        
-        <View style={styles.featureCard}>
-          <View style={styles.featureIconContainer}>
-            <Ionicons name="call" size={32} color="#3B82F6" />
+      </LinearGradient>
+
+      {/* Section Title */}
+      <Text style={styles.sectionTitle}>What we offer</Text>
+      <Text style={styles.sectionDesc}>
+        Whether it's a routine checkup or specialist care, we keep it simple, accessible, and human.
+      </Text>
+
+      {/* Service Cards — horizontal icon-left layout */}
+      <View style={styles.servicesList}>
+        <View style={styles.serviceCard}>
+          <View style={[styles.serviceIconWrap, { backgroundColor: '#eff6ff' }]}>  
+            <Ionicons name="medkit" size={22} color="#3b82f6" />
           </View>
-          <Text style={styles.featureTitle}>Direct Consultation</Text>
-          <Text style={styles.featureDescription}>Connect directly with qualified healthcare professionals</Text>
+          <View style={styles.serviceTextCol}>
+            <Text style={styles.serviceTitle}>General Consultation</Text>
+            <Text style={styles.serviceDesc}>Talk to a doctor about any health concern — no referrals needed.</Text>
+          </View>
+        </View>
+
+        <View style={styles.serviceCard}>
+          <View style={[styles.serviceIconWrap, { backgroundColor: '#fef3c7' }]}>  
+            <Ionicons name="pulse" size={22} color="#d97706" />
+          </View>
+          <View style={styles.serviceTextCol}>
+            <Text style={styles.serviceTitle}>Health Screening</Text>
+            <Text style={styles.serviceDesc}>Preventive check-ups and full-body diagnostics at your doorstep.</Text>
+          </View>
+        </View>
+
+        <View style={styles.serviceCard}>
+          <View style={[styles.serviceIconWrap, { backgroundColor: '#f0fdf4' }]}>  
+            <Ionicons name="call" size={22} color="#16a34a" />
+          </View>
+          <View style={styles.serviceTextCol}>
+            <Text style={styles.serviceTitle}>Direct Doctor Access</Text>
+            <Text style={styles.serviceDesc}>Skip waiting rooms — connect with specialists over a quick call.</Text>
+          </View>
+        </View>
+
+        <View style={styles.serviceCard}>
+          <View style={[styles.serviceIconWrap, { backgroundColor: '#fdf2f8' }]}>  
+            <Ionicons name="heart" size={22} color="#db2777" />
+          </View>
+          <View style={styles.serviceTextCol}>
+            <Text style={styles.serviceTitle}>Chronic Care Plans</Text>
+            <Text style={styles.serviceDesc}>Long-term management for diabetes, hypertension, and more.</Text>
+          </View>
         </View>
       </View>
 
-      {/* Call to Action Section */}
-      <View style={styles.ctaSection}>
-        <TouchableOpacity style={styles.callButton} onPress={onCallPress}>
-          <Ionicons name="call" size={20} color="white" />
-          <Text style={styles.callButtonText}>Call Now: +91 8923894358</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.registerButton} onPress={onRegistrationPress}>
-          <Ionicons name="document-text" size={20} color="white" />
-          <Text style={styles.registerButtonText}>Register Your Request</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Benefits Section */}
-      <View style={styles.benefitsSection}>
-        <Text style={styles.benefitsTitle}>Why Choose Our Healthcare Services?</Text>
-        <View style={styles.benefitsList}>
-          <View style={styles.benefitItem}>
-            <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-            <Text style={styles.benefitText}>Expert medical professionals</Text>
-          </View>
-          <View style={styles.benefitItem}>
-            <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-            <Text style={styles.benefitText}>Quick response time</Text>
-          </View>
-          <View style={styles.benefitItem}>
-            <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-            <Text style={styles.benefitText}>Comprehensive healthcare coverage</Text>
-          </View>
-          <View style={styles.benefitItem}>
-            <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-            <Text style={styles.benefitText}>Affordable pricing options</Text>
-          </View>
+      {/* Trust Points — compact inline */}
+      <View style={styles.trustBar}>
+        <View style={styles.trustChip}>
+          <Ionicons name="shield-checkmark" size={14} color="#10b981" />
+          <Text style={styles.trustText}>HIPAA Compliant</Text>
+        </View>
+        <View style={styles.trustChip}>
+          <Ionicons name="time" size={14} color="#3b82f6" />
+          <Text style={styles.trustText}>24/7 Support</Text>
+        </View>
+        <View style={styles.trustChip}>
+          <Ionicons name="people" size={14} color="#8b5cf6" />
+          <Text style={styles.trustText}>5K+ Patients</Text>
         </View>
       </View>
     </View>
@@ -79,128 +111,149 @@ const IndividualFeaturesSection: React.FC<IndividualFeaturesSectionProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 32,
   },
-  heroSection: {
-    alignItems: 'center',
+
+  // ── CTA Gradient Card ──
+  ctaCard: {
+    borderRadius: 20,
+    padding: 28,
     marginBottom: 32,
-    paddingVertical: 24,
   },
-  heroTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    textAlign: 'center',
-    marginBottom: 8,
+  ctaContent: {
+    alignItems: 'center',
   },
-  heroSubtitle: {
-    fontSize: 16,
-    color: '#6B7280',
+  ctaTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#ffffff',
     textAlign: 'center',
-    lineHeight: 24,
+    marginBottom: 10,
+    letterSpacing: -0.2,
+  },
+  ctaSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.85)',
+    textAlign: 'center',
+    lineHeight: 21,
+    marginBottom: 24,
     maxWidth: 300,
   },
-  featuresGrid: {
-    flexDirection: 'column',
-    gap: 16,
-    marginBottom: 32,
-  },
-  featureCard: {
+  ctaButtons: {
+    gap: 12,
     width: '100%',
-    backgroundColor: '#ffffff',
-    padding: 20,
-    borderRadius: 16,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
   },
-  featureIconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: '#EBF4FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  featureTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  featureDescription: {
-    fontSize: 14,
-    color: '#6B7280',
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  ctaSection: {
-    gap: 12,
-    marginBottom: 32,
-  },
-  callButton: {
+  primaryButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#10B981',
-    paddingVertical: 16,
+    backgroundColor: '#ffffff',
+    paddingVertical: 14,
     borderRadius: 12,
     gap: 8,
   },
-  callButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+  primaryButtonText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0d9488',
   },
-  registerButton: {
+  secondaryButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#3B82F6',
-    paddingVertical: 16,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.5)',
+    paddingVertical: 14,
     borderRadius: 12,
     gap: 8,
   },
-  registerButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
+  secondaryButtonText: {
+    fontSize: 15,
     fontWeight: '600',
+    color: '#ffffff',
   },
-  benefitsSection: {
-    backgroundColor: '#ffffff',
-    padding: 24,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  benefitsTitle: {
+
+  // ── Section Title ──
+  sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 16,
-    textAlign: 'center',
+    fontWeight: '800',
+    color: '#111827',
+    marginBottom: 4,
   },
-  benefitsList: {
+  sectionDesc: {
+    fontSize: 13.5,
+    color: '#6b7280',
+    lineHeight: 19,
+    marginBottom: 20,
+  },
+
+  // ── Service Cards ──
+  servicesList: {
     gap: 12,
+    marginBottom: 24,
   },
-  benefitItem: {
+  serviceCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#f1f5f9',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  serviceIconWrap: {
+    width: 42,
+    height: 42,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
+    marginTop: 2,
+  },
+  serviceTextCol: {
+    flex: 1,
+  },
+  serviceTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginBottom: 3,
+  },
+  serviceDesc: {
+    fontSize: 13,
+    color: '#6b7280',
+    lineHeight: 18,
+  },
+
+  // ── Trust Bar ──
+  trustBar: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  trustChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 5,
+    backgroundColor: '#f8fafc',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
-  benefitText: {
-    fontSize: 16,
-    color: '#374151',
-    flex: 1,
+  trustText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+    letterSpacing: 0.3,
   },
 });
 

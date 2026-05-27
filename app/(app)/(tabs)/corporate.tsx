@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
-import { Linking, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import {
   FeaturesSection,
   RegistrationForm
 } from '@/components/explore';
 import { features } from '@/components/explore/data';
 import { submitCorporateForm } from '@/services/corporateApi';
+import React, { useRef, useState } from 'react';
+import { KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const Corporate = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const registrationFormY = useRef(0);
-  
+
   const [formData, setFormData] = useState({
     companyName: '',
     contactPerson: '',
@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingTop: 16,
-    paddingBottom: 120,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   pageHeader: {
     paddingHorizontal: 20,

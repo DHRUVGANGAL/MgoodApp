@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DropdownOption {
   label: string;
@@ -19,7 +19,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
   options,
   value,
   placeholder,
-  icon = 'chevron-down',
   onValueChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,17 +32,15 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
 
   return (
     <>
-      <TouchableOpacity 
-        style={styles.dropdownContainer}
+      <TouchableOpacity
+        style={styles.trigger}
         onPress={() => setIsOpen(true)}
         activeOpacity={0.7}
       >
-        <View style={styles.dropdownContent}>
-          <Text style={[styles.dropdownText, !selectedOption && styles.placeholderText]}>
-            {selectedOption ? selectedOption.label : placeholder}
-          </Text>
-          <Ionicons name={icon as any} size={20} color="#9CA3AF" />
-        </View>
+        <Text style={[styles.triggerText, !selectedOption && styles.placeholderText]}>
+          {selectedOption ? selectedOption.label : placeholder}
+        </Text>
+        <Ionicons name="chevron-down" size={18} color="#94a3b8" />
       </TouchableOpacity>
 
       <Modal
@@ -52,42 +49,50 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         animationType="fade"
         onRequestClose={() => setIsOpen(false)}
       >
-        <TouchableOpacity 
-          style={styles.modalOverlay}
+        <TouchableOpacity
+          style={styles.overlay}
           activeOpacity={1}
           onPress={() => setIsOpen(false)}
         >
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Option</Text>
-              <TouchableOpacity onPress={() => setIsOpen(false)}>
-                <Ionicons name="close" size={24} color="#6B7280" />
+          <View style={styles.sheet}>
+            {/* Sheet Header */}
+            <View style={styles.sheetHeader}>
+              <Text style={styles.sheetTitle}>Select Option</Text>
+              <TouchableOpacity
+                onPress={() => setIsOpen(false)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Ionicons name="close" size={22} color="#6b7280" />
               </TouchableOpacity>
             </View>
-            
-            <View style={styles.optionsList}>
-              {options.map((option, index) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.optionItem,
-                    index === options.length - 1 && styles.lastOptionItem,
-                    selectedOption?.value === option.value && styles.selectedOption
-                  ]}
-                  onPress={() => handleSelect(option.value)}
-                >
-                  <Text style={[
-                    styles.optionText,
-                    selectedOption?.value === option.value && styles.selectedOptionText
-                  ]}>
-                    {option.label}
-                  </Text>
-                  {selectedOption?.value === option.value && (
-                    <Ionicons name="checkmark" size={20} color="#3B82F6" />
-                  )}
-                </TouchableOpacity>
-              ))}
-            </View>
+
+            {/* Options */}
+            <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+              {options.map((option, index) => {
+                const isSelected = selectedOption?.value === option.value;
+                return (
+                  <TouchableOpacity
+                    key={option.value}
+                    style={[
+                      styles.optionRow,
+                      index === options.length - 1 && styles.lastOptionRow,
+                      isSelected && styles.selectedRow,
+                    ]}
+                    onPress={() => handleSelect(option.value)}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={[styles.optionLabel, isSelected && styles.selectedLabel]}>
+                      {option.label}
+                    </Text>
+                    {isSelected && (
+                      <View style={styles.checkWrap}>
+                        <Ionicons name="checkmark" size={16} color="#0d9488" />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -96,86 +101,94 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
 };
 
 const styles = StyleSheet.create({
-  dropdownContainer: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    minHeight: 48,
-  },
-  dropdownContent: {
+  // ── Trigger Button ──
+  trigger: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: '#f9fafb',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 13,
+    minHeight: 48,
   },
-  dropdownText: {
-    fontSize: 16,
-    color: '#1F2937',
+  triggerText: {
+    fontSize: 15,
+    color: '#1f2937',
     flex: 1,
   },
   placeholderText: {
-    color: '#6B7280',
+    color: '#9ca3af',
   },
-  modalOverlay: {
+
+  // ── Modal ──
+  overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
   },
-  modalContent: {
+  sheet: {
     backgroundColor: '#ffffff',
-    borderRadius: 16,
+    borderRadius: 18,
     width: '100%',
-    maxHeight: '70%',
+    maxHeight: '65%',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 24,
+    elevation: 10,
   },
-  modalHeader: {
+  sheetHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#f1f5f9',
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1F2937',
+  sheetTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#111827',
   },
-  optionsList: {
-    paddingVertical: 8,
-  },
-  optionItem: {
+
+  // ── Options ──
+  optionRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    borderBottomColor: '#f8fafc',
   },
-  lastOptionItem: {
+  lastOptionRow: {
     borderBottomWidth: 0,
   },
-  selectedOption: {
-    backgroundColor: '#EBF4FF',
+  selectedRow: {
+    backgroundColor: '#f0fdfa',
   },
-  optionText: {
-    fontSize: 16,
+  optionLabel: {
+    fontSize: 15,
     color: '#374151',
     flex: 1,
   },
-  selectedOptionText: {
-    color: '#1F2937',
-    fontWeight: '500',
+  selectedLabel: {
+    color: '#0d9488',
+    fontWeight: '600',
+  },
+  checkWrap: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#ccfbf1',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

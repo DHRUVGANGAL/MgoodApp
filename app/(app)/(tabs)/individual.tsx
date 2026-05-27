@@ -7,7 +7,7 @@ import { IndividualFormData, submitIndividualForm } from '@/services/individualA
 const Individual = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const registrationFormY = useRef(0);
-  
+
   const [formData, setFormData] = useState<IndividualFormData>({
     fullName: '',
     email: '',
@@ -96,11 +96,11 @@ const Individual = () => {
             <Text style={styles.pageSubtitle}>Personal health support, just for you</Text>
           </View>
 
-          <IndividualFeaturesSection 
+          <IndividualFeaturesSection
             onCallPress={handleCall}
             onRegistrationPress={handleRegistrationPress}
           />
-          
+
           <View onLayout={(e) => { registrationFormY.current = e.nativeEvent.layout.y; }}>
             <IndividualRegistrationForm
               formData={formData}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingTop: 16,
-    paddingBottom: 120,
+    paddingBottom: 0,
   },
   pageHeader: {
     paddingHorizontal: 20,
