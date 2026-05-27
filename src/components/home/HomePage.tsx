@@ -6,6 +6,7 @@ import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { socialLinks } from '@/config';
 import Carousel from './Carousel';
+import { ProductsSection } from './ProductsSection';
 
 const HomePage = () => {
   const router = useRouter();
@@ -92,6 +93,7 @@ const HomePage = () => {
               </View>
             </TouchableOpacity>
           </View>
+          <ProductsSection />
           <View style={styles.socialBar}>
             <TouchableOpacity
               style={[styles.socialIcon, styles.socialIconSpacing, { backgroundColor: '#E1306C' }]}

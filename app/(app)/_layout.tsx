@@ -12,6 +12,8 @@ export default function AppLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="about" />
         <Stack.Screen name="gallery" />
+        <Stack.Screen name="cyber-security" />
+        <Stack.Screen name="path-lab" />
       </Stack>
       <StatusBar style="dark" />
     </ThemeProvider>
