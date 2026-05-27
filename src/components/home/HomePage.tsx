@@ -1,10 +1,10 @@
+import { socialLinks } from '@/config';
 import { Ionicons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { Alert, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { socialLinks } from '@/config';
 import Carousel from './Carousel';
 import { ProductsSection } from './ProductsSection';
 

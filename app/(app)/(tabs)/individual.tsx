@@ -1,7 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import IndividualFeaturesSection from '@/components/individual/IndividualFeaturesSection';
 import IndividualRegistrationForm from '@/components/individual/IndividualRegistrationForm';
 import { IndividualFormData, submitIndividualForm } from '@/services/individualApi';
@@ -9,7 +7,6 @@ import { IndividualFormData, submitIndividualForm } from '@/services/individualA
 const Individual = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const registrationFormY = useRef(0);
-  const router = useRouter();
   
   const [formData, setFormData] = useState<IndividualFormData>({
     fullName: '',
@@ -83,27 +80,22 @@ const Individual = () => {
     scrollViewRef.current?.scrollTo({ y: registrationFormY.current, animated: true });
   };
 
-  const handleBackPress = () => {
-    router.back();
-  };
+
 
   return (
     <View style={styles.container}>
-      {/* Header with back button */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-          <Ionicons name="arrow-back" size={24} color="#1F2937" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Individual Request</Text>
-        <View style={styles.placeholder} />
-      </View>
-      
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 88 : 0}
       >
-        <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContent}>
+          {/* Page Header */}
+          <View style={styles.pageHeader}>
+            <Text style={styles.pageTitle}>Individual</Text>
+            <Text style={styles.pageSubtitle}>Personal health support, just for you</Text>
+          </View>
+
           <IndividualFeaturesSection 
             onCallPress={handleCall}
             onRegistrationPress={handleRegistrationPress}
@@ -130,31 +122,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f9fafb',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  backButton: {
-    padding: 8,
-    borderRadius: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1F2937',
-  },
-  placeholder: {
-    width: 40,
-  },
   scrollView: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 16,
+    paddingBottom: 120,
+  },
+  pageHeader: {
+    paddingHorizontal: 20,
+    marginBottom: 8,
+    paddingTop: 48,
+  },
+  pageTitle: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#111827',
+    letterSpacing: -0.3,
+  },
+  pageSubtitle: {
+    fontSize: 15,
+    color: '#6b7280',
+    marginTop: 4,
+    fontWeight: '400',
   },
 });
 
