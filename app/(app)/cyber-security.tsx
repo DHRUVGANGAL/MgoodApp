@@ -1,177 +1,343 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { Dimensions, ScrollView, StatusBar, StyleSheet, TextInput, TouchableOpacity, View, Alert, Platform } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
-import { useThemeColor } from '@/hooks/useThemeColor';
-
-const { width: screenWidth } = Dimensions.get('window');
+const plansData = [
+  {
+    id: '1',
+    name: "Plan 1",
+    sumInsured: "₹1,00,000",
+    premium: 2970,
+    description: "Essential cyber protection for individuals",
+    features: [
+      "Theft of Funds",
+      "Identity Theft",
+      "Cyber Bullying / Cyber Stalking",
+      "Social Media & Media Liability",
+      "Privacy Breach & Data Breach Liability",
+      "Online Shopping"
+    ],
+    highlight: false
+  },
+  {
+    id: '2',
+    name: "Plan 2",
+    sumInsured: "₹5,00,000",
+    premium: 3460,
+    description: "Enhanced protection with higher coverage",
+    features: [
+      "Theft of Funds",
+      "Identity Theft",
+      "Cyber Bullying / Cyber Stalking",
+      "Social Media & Media Liability",
+      "Privacy Breach & Data Breach Liability",
+      "Online Shopping"
+    ],
+    highlight: false
+  },
+  {
+    id: '3',
+    name: "Plan 3",
+    sumInsured: "₹10,00,000",
+    premium: 3995,
+    description: "Comprehensive coverage for complete peace of mind",
+    features: [
+      "Theft of Funds",
+      "Identity Theft",
+      "Cyber Bullying / Cyber Stalking",
+      "Social Media & Media Liability",
+      "Privacy Breach & Data Breach Liability",
+      "Online Shopping"
+    ],
+    highlight: true
+  },
+  {
+    id: '4',
+    name: "Plan 4",
+    sumInsured: "₹15,00,000",
+    premium: 5245,
+    description: "Maximum protection with the highest sum insured",
+    features: [
+      "Theft of Funds",
+      "Identity Theft",
+      "Cyber Bullying / Cyber Stalking",
+      "Social Media & Media Liability",
+      "Privacy Breach & Data Breach Liability",
+      "Online Shopping"
+    ],
+    highlight: false
+  }
+];
 
 export default function CyberSecurityScreen() {
   const router = useRouter();
-  const iconColor = useThemeColor({}, 'text');
-  const backgroundColor = useThemeColor({}, 'backgroundOffset');
-  const cardBg = useThemeColor({}, 'card');
-  const borderBg = useThemeColor({}, 'border');
+  const scrollViewRef = useRef<ScrollView>(null);
+  const formRefY = useRef<number>(0);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [selectedSumInsured, setSelectedSumInsured] = useState('');
 
-  const handleSubmit = () => {
-    if (!name || !email || !phone) {
-      Alert.alert('Incomplete Form', 'Please fill in all the details to request a consultation.');
-      return;
+  const handleSelectPlan = (sumInsured: string) => {
+    setSelectedSumInsured(sumInsured);
+    // Scroll to form
+    if (scrollViewRef.current && formRefY.current > 0) {
+      scrollViewRef.current.scrollTo({ y: formRefY.current, animated: true });
     }
-    Alert.alert(
-      'Request Submitted',
-      `Thank you ${name}. Our healthcare digital security specialists will reach out to you within 24 hours.`,
-      [{ text: 'OK', onPress: () => router.back() }]
-    );
   };
 
-  const coverages = [
-    {
-      title: 'Patient Data Protection',
-      description: 'Covers major liability claims arising from electronic health record (EHR) data breaches, leaks, or hacking incidents.',
-      icon: 'lock-closed' as const,
-    },
-    {
-      title: 'Ransomware Extortion Cover',
-      description: 'Provides critical financial coverage for system locking threats, cyber-extortion, and data recovery services.',
-      icon: 'shield-half' as const,
-    },
-    {
-      title: 'Business Interruption Support',
-      description: 'Offsets operating losses and compensates for clinic/hospital downtime caused by active cyber attacks.',
-      icon: 'time' as const,
-    },
-    {
-      title: 'HIPAA & Compliance Assurances',
-      description: 'Helps cover standard defense costs, forensic audits, and regulatory fines resulting from security violations.',
-      icon: 'document-text' as const,
-    },
-  ];
+  const handleRegister = () => {
+    console.log("Registration Attempt:");
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Phone:", phone);
+    console.log("Selected Sum Insured:", selectedSumInsured);
+    // Here we just log for now as requested
+    alert(`Registered with Sum Insured: ${selectedSumInsured || 'None Selected'}`);
+  };
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+    <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle={Platform.OS === 'ios' ? 'dark-content' : 'default'} />
-      <ThemedView style={[styles.container, { backgroundColor }]}>
+      <View style={styles.container}>
         
         {/* Header */}
-        <View style={[styles.header, { backgroundColor: useThemeColor({}, 'background'), borderBottomColor: borderBg }]}>
+        <View style={styles.header}>
           <TouchableOpacity 
             onPress={() => router.back()} 
             style={styles.backButton} 
-            accessibilityLabel="Go back"
           >
-            <Ionicons name="arrow-back" size={24} color={iconColor} />
+            <Ionicons name="arrow-back" size={24} color="#1f2937" />
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
-            <ThemedText style={styles.headerTitle}>Cyber Security Cover</ThemedText>
-            <ThemedText style={styles.headerSubtitle}>Digital Risk Protection</ThemedText>
+            <Text style={styles.headerTitle}>Cyber Security</Text>
           </View>
           <View style={styles.placeholder} />
         </View>
 
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          {/* Banner */}
-          <View style={styles.banner}>
-            <View style={styles.bannerIconContainer}>
-              <Ionicons name="shield-checkmark" size={42} color="#ffffff" />
+        <KeyboardAvoidingView 
+          style={{ flex: 1 }} 
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 88 : 0}
+        >
+          <ScrollView 
+            ref={scrollViewRef}
+            contentContainerStyle={styles.scrollContent} 
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Hero Section */}
+            <View style={styles.heroSection}>
+              <View style={styles.heroIconWrapper}>
+                <Ionicons name="shield-checkmark" size={32} color="#4f46e5" />
+              </View>
+              <Text style={styles.heroTitle}>Choose Your Cyber Protection Plan</Text>
+              <Text style={styles.heroDesc}>
+                Select the plan that best suits your cybersecurity needs. All plans include comprehensive coverage across all categories.
+              </Text>
             </View>
-            <ThemedText style={styles.bannerTitle}>Enterprise-Grade Cyber Insurance</ThemedText>
-            <ThemedText style={styles.bannerDesc}>
-              Protecting hospital management networks, doctor consultation portals, and confidential patient records with robust compliance-ready coverage.
-            </ThemedText>
-          </View>
 
-          {/* Coverages Grid */}
-          <ThemedText style={styles.sectionTitle}>What is Covered?</ThemedText>
-          <View style={styles.gridContainer}>
-            {coverages.map((item, index) => (
-              <ThemedView 
-                key={index} 
-                style={[styles.itemCard, { backgroundColor: cardBg, borderColor: borderBg }]}
-              >
-                <View style={styles.itemHeader}>
-                  <View style={styles.itemIconWrapper}>
-                    <Ionicons name={item.icon} size={20} color="#4f46e5" />
-                  </View>
-                  <ThemedText style={styles.itemTitle}>{item.title}</ThemedText>
+            {/* Plans List */}
+            <View style={styles.plansContainer}>
+              {plansData.map((plan, index) => {
+                const isSelected = selectedSumInsured === plan.sumInsured;
+                if (plan.highlight) {
+                  return (
+                    <TouchableOpacity 
+                      key={plan.id}
+                      activeOpacity={0.9}
+                      onPress={() => handleSelectPlan(plan.sumInsured)}
+                      style={{ marginTop: 15 }}
+                    >
+                      <LinearGradient
+                        colors={['#0f172a', '#1e3a8a', '#0f172a']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={[styles.planCardHighlighted, isSelected && styles.selectedRing]}
+                      >
+                        <View style={styles.planCardInnerHighlight}>
+                          <Text style={[styles.planName, { color: '#ffffff' }]}>{plan.name}</Text>
+                          
+                          <View style={styles.sumInsuredBoxHighlight}>
+                            <Text style={styles.sumInsuredLabelHighlight}>Sum Insured</Text>
+                            <Text style={styles.sumInsuredValueHighlight}>{plan.sumInsured}</Text>
+                          </View>
+                          
+                          <Text style={[styles.planDesc, { color: 'rgba(255,255,255,0.8)' }]}>{plan.description}</Text>
+                          
+                          <View style={[styles.divider, { backgroundColor: 'rgba(255,255,255,0.1)' }]} />
+                          
+                          <View style={styles.premiumBox}>
+                            <Text style={[styles.premiumValue, { color: '#ffffff' }]}>₹{plan.premium.toLocaleString('en-IN')}</Text>
+                            <Text style={[styles.premiumSuffix, { color: '#93c5fd' }]}>/year</Text>
+                          </View>
+                          
+                          <View style={styles.featuresList}>
+                            {plan.features.map((feature, i) => (
+                              <View key={i} style={styles.featureRow}>
+                                <View style={styles.checkWrapHighlight}>
+                                  <Ionicons name="checkmark" size={12} color="#93c5fd" />
+                                </View>
+                                <Text style={[styles.featureText, { color: '#e0f2fe' }]}>{feature}</Text>
+                              </View>
+                            ))}
+                          </View>
+
+                          <View style={[styles.selectBtnHighlight, isSelected && styles.selectBtnActive]}>
+                            <Text style={[styles.selectBtnTextHighlight, isSelected && styles.selectBtnTextActive]}>
+                              {isSelected ? 'Selected Plan' : 'Select this plan'}
+                            </Text>
+                            {!isSelected && <Ionicons name="arrow-forward" size={16} color="#93c5fd" style={{ marginLeft: 4 }} />}
+                          </View>
+                        </View>
+                      </LinearGradient>
+
+                      <View style={styles.mostPopularBadge}>
+                        <LinearGradient
+                          colors={['#fbbf24', '#f97316']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={styles.mostPopularGradient}
+                        >
+                          <Text style={styles.mostPopularText}>Most Popular</Text>
+                        </LinearGradient>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+
+                return (
+                  <TouchableOpacity 
+                    key={plan.id}
+                    activeOpacity={0.9}
+                    onPress={() => handleSelectPlan(plan.sumInsured)}
+                    style={[styles.planCard, isSelected && styles.selectedRing]}
+                  >
+                    <Text style={styles.planName}>{plan.name}</Text>
+                    
+                    <View style={styles.sumInsuredBox}>
+                      <Text style={styles.sumInsuredLabel}>Sum Insured</Text>
+                      <Text style={styles.sumInsuredValue}>{plan.sumInsured}</Text>
+                    </View>
+                    
+                    <Text style={styles.planDesc}>{plan.description}</Text>
+                    
+                    <View style={styles.divider} />
+                    
+                    <View style={styles.premiumBox}>
+                      <Text style={styles.premiumValue}>₹{plan.premium.toLocaleString('en-IN')}</Text>
+                      <Text style={styles.premiumSuffix}>/year</Text>
+                    </View>
+                    
+                    <View style={styles.featuresList}>
+                      {plan.features.map((feature, i) => (
+                        <View key={i} style={styles.featureRow}>
+                          <View style={styles.checkWrap}>
+                            <Ionicons name="checkmark" size={12} color="#2563eb" />
+                          </View>
+                          <Text style={styles.featureText}>{feature}</Text>
+                        </View>
+                      ))}
+                    </View>
+
+                    <View style={[styles.selectBtn, isSelected && styles.selectBtnActive]}>
+                      <Text style={[styles.selectBtnText, isSelected && styles.selectBtnTextActive]}>
+                        {isSelected ? 'Selected Plan' : 'Select this plan'}
+                      </Text>
+                      {!isSelected && <Ionicons name="arrow-forward" size={16} color="#3b82f6" style={{ marginLeft: 4 }} />}
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            {/* Registration Form */}
+            <View 
+              style={styles.formContainer}
+              onLayout={(e) => {
+                formRefY.current = e.nativeEvent.layout.y;
+              }}
+            >
+              <View style={styles.formHeader}>
+                <Ionicons name="lock-closed" size={24} color="#4f46e5" />
+                <Text style={styles.formTitle}>Secure Your Plan</Text>
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Selected Sum Insured</Text>
+                <View style={[styles.inputRow, styles.inputDisabled]}>
+                  <Ionicons name="shield-checkmark-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.input}
+                    value={selectedSumInsured}
+                    placeholder="Select a plan above"
+                    placeholderTextColor="#9ca3af"
+                    editable={false}
+                  />
                 </View>
-                <ThemedText 
-                  style={styles.itemDesc}
-                  lightColor={Colors.light.secondaryText}
-                  darkColor={Colors.dark.secondaryText}
-                >
-                  {item.description}
-                </ThemedText>
-              </ThemedView>
-            ))}
-          </View>
+              </View>
 
-          {/* Quick Inquiry Form */}
-          <ThemedView style={[styles.formCard, { backgroundColor: cardBg, borderColor: borderBg }]}>
-            <ThemedText style={styles.formTitle}>Request a Custom Quote</ThemedText>
-            <ThemedText 
-              style={styles.formSubtitle}
-              lightColor={Colors.light.secondaryText}
-              darkColor={Colors.dark.secondaryText}
-            >
-              Get a customized cyber security insurance proposal for your medical facility or private practice.
-            </ThemedText>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Full Name</Text>
+                <View style={styles.inputRow}>
+                  <Ionicons name="person-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your full name"
+                    placeholderTextColor="#9ca3af"
+                    value={name}
+                    onChangeText={setName}
+                  />
+                </View>
+              </View>
 
-            <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>Full Name / Facility Representative</ThemedText>
-              <TextInput
-                style={[styles.input, { borderColor: borderBg, color: iconColor }]}
-                placeholder="Enter name"
-                placeholderTextColor="#94a3b8"
-                value={name}
-                onChangeText={setName}
-              />
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Email Address</Text>
+                <View style={styles.inputRow}>
+                  <Ionicons name="mail-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="you@example.com"
+                    placeholderTextColor="#9ca3af"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Phone Number</Text>
+                <View style={styles.inputRow}>
+                  <Ionicons name="call-outline" size={18} color="#94a3b8" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="+91 9876543210"
+                    placeholderTextColor="#9ca3af"
+                    keyboardType="phone-pad"
+                    value={phone}
+                    onChangeText={setPhone}
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity 
+                style={styles.submitBtn} 
+                onPress={handleRegister}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.submitBtnText}>Register Now</Text>
+                <Ionicons name="arrow-forward" size={18} color="#ffffff" style={{ marginLeft: 8 }} />
+              </TouchableOpacity>
             </View>
 
-            <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>Corporate Email Address</ThemedText>
-              <TextInput
-                style={[styles.input, { borderColor: borderBg, color: iconColor }]}
-                placeholder="Enter email"
-                placeholderTextColor="#94a3b8"
-                value={email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={setEmail}
-              />
-            </View>
-
-            <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>Contact Number</ThemedText>
-              <TextInput
-                style={[styles.input, { borderColor: borderBg, color: iconColor }]}
-                placeholder="Enter phone number"
-                placeholderTextColor="#94a3b8"
-                value={phone}
-                keyboardType="phone-pad"
-                onChangeText={setPhone}
-              />
-            </View>
-
-            <TouchableOpacity 
-              style={styles.submitBtn} 
-              onPress={handleSubmit}
-              activeOpacity={0.8}
-            >
-              <ThemedText style={styles.submitBtnText}>Request Consultation</ThemedText>
-            </TouchableOpacity>
-          </ThemedView>
-        </ScrollView>
-      </ThemedView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -179,9 +345,11 @@ export default function CyberSecurityScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   container: {
     flex: 1,
+    backgroundColor: '#f8fafc', // Very light blue/gray background
   },
   header: {
     flexDirection: 'row',
@@ -189,29 +357,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 14,
-    borderBottomWidth: 1.5,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#0f172a',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.03,
-        shadowRadius: 6,
-      },
-      android: {
-        elevation: 2,
-      },
-      web: {
-        shadowColor: '#0f172a',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.03,
-        shadowRadius: 6,
-      }
-    }),
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
   },
   backButton: {
     padding: 8,
     borderRadius: 12,
-    backgroundColor: 'rgba(241, 245, 249, 0.8)',
+    backgroundColor: '#f1f5f9',
     alignItems: 'center',
     justifyContent: 'center',
     width: 40,
@@ -224,17 +377,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     textAlign: 'center',
-    fontSize: screenWidth > 800 ? 24 : 19,
-    fontWeight: '800',
-    letterSpacing: 0.3,
-  },
-  headerSubtitle: {
-    textAlign: 'center',
-    fontSize: screenWidth > 800 ? 13 : 11,
-    color: '#64748b',
-    marginTop: 1.5,
-    fontWeight: '600',
-    letterSpacing: 0.1,
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#0f172a',
   },
   placeholder: {
     width: 40,
@@ -243,115 +388,324 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 60,
   },
-  banner: {
-    backgroundColor: '#4f46e5',
-    borderRadius: 24,
-    padding: 24,
+
+  // ── Hero Section ──
+  heroSection: {
     alignItems: 'center',
-    marginBottom: 25,
+    marginBottom: 30,
+    paddingTop: 10,
   },
-  bannerIconContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  heroIconWrapper: {
+    width: 60,
+    height: 60,
+    borderRadius: 16,
+    backgroundColor: '#eff6ff',
+    borderWidth: 1,
+    borderColor: '#dbeafe',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
   },
-  bannerTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#ffffff',
+  heroTitle: {
+    fontSize: 26,
+    fontWeight: '800',
+    color: '#0f172a',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
+    letterSpacing: -0.5,
   },
-  bannerDesc: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.9)',
+  heroDesc: {
+    fontSize: 15,
+    color: '#64748b',
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: 22,
+    paddingHorizontal: 10,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 15,
-    paddingLeft: 4,
+
+  // ── Plans ──
+  plansContainer: {
+    gap: 20,
+    marginBottom: 40,
   },
-  gridContainer: {
-    gap: 12,
-    marginBottom: 30,
-  },
-  itemCard: {
-    borderWidth: 1,
-    borderRadius: 16,
-    padding: 16,
-  },
-  itemHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  itemIconWrapper: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: 'rgba(79, 70, 229, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  itemTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  itemDesc: {
-    fontSize: 13,
-    lineHeight: 18,
-    paddingLeft: 48,
-  },
-  formCard: {
-    borderWidth: 1,
+  planCard: {
+    backgroundColor: '#ffffff',
     borderRadius: 20,
-    padding: 20,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
   },
-  formTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 6,
+  planCardHighlighted: {
+    borderRadius: 20,
+    shadowColor: '#1e3a8a',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+    position: 'relative',
   },
-  formSubtitle: {
+  planCardInnerHighlight: {
+    padding: 24,
+    paddingTop: 36, // Extra space for the badge
+  },
+  selectedRing: {
+    borderColor: '#3b82f6',
+    borderWidth: 2,
+  },
+  mostPopularBadge: {
+    position: 'absolute',
+    top: -12,
+    alignSelf: 'center',
+    zIndex: 10,
+    shadowColor: '#f59e0b',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  mostPopularGradient: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  mostPopularText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  planName: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#0f172a',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  sumInsuredBox: {
+    backgroundColor: '#eff6ff',
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sumInsuredBoxHighlight: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sumInsuredLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#94a3b8',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  sumInsuredLabelHighlight: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#93c5fd',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  sumInsuredValue: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#2563eb',
+  },
+  sumInsuredValueHighlight: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  planDesc: {
     fontSize: 13,
+    color: '#64748b',
+    textAlign: 'center',
     lineHeight: 18,
     marginBottom: 20,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#f1f5f9',
+    marginHorizontal: -24,
+    marginBottom: 20,
+  },
+  premiumBox: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    marginBottom: 24,
+  },
+  premiumValue: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: '#0f172a',
+    letterSpacing: -1,
+  },
+  premiumSuffix: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#64748b',
+    marginLeft: 4,
+  },
+  featuresList: {
+    gap: 12,
+  },
+  featureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkWrap: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#eff6ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  checkWrapHighlight: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  featureText: {
+    fontSize: 14,
+    color: '#475569',
+    flex: 1,
+  },
+  selectBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    backgroundColor: '#eff6ff',
+    marginTop: 24,
+  },
+  selectBtnHighlight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(59, 130, 246, 0.3)',
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    marginTop: 24,
+  },
+  selectBtnActive: {
+    backgroundColor: '#10b981',
+    borderColor: '#059669',
+  },
+  selectBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#3b82f6',
+  },
+  selectBtnTextHighlight: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#93c5fd',
+  },
+  selectBtnTextActive: {
+    color: '#ffffff',
+  },
+
+  // ── Form ──
+  formContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  formHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 24,
+    gap: 8,
+  },
+  formTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#0f172a',
   },
   inputGroup: {
     marginBottom: 16,
   },
   label: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
-    color: '#64748b',
+    color: '#475569',
     marginBottom: 6,
   },
-  input: {
-    borderWidth: 1.5,
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8fafc',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 14,
+  },
+  inputDisabled: {
+    backgroundColor: '#f1f5f9',
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: '#0f172a',
   },
   submitBtn: {
+    flexDirection: 'row',
     backgroundColor: '#4f46e5',
     borderRadius: 14,
-    paddingVertical: 14,
+    paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
+    shadowColor: '#4f46e5',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   submitBtnText: {
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
 });
