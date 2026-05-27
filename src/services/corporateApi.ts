@@ -16,98 +16,81 @@ interface ApiResponse {
   success: boolean;
   message: string;
   error?: string;
+  data?: any;
 }
 
+// API endpoint for corporate requests
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
-// For development/testing, you can use a mock API or connect to your existing backend
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3001';
-
+/**
+ * Submit corporate registration form
+ * @param formData - The form data to submit
+ * @returns Promise<ApiResponse>
+ */
 export const submitCorporateForm = async (formData: CorporateFormData): Promise<ApiResponse> => {
   try {
-    // For now, we'll simulate the API call
-    // Replace this with your actual API endpoint
-    const response = await fetch(`${API_BASE_URL}/api/corporate-registration`, {
+    console.log('📤 Submitting corporate form to:', `${API_BASE_URL}/submit-corporate-request`);
+    console.log('📤 Form data:', formData);
+
+    const response = await fetch(`${API_BASE_URL}/sheets/submit-corporate-request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify({
-        ...formData,
-        submissionDate: new Date().toISOString(),
+        companyName: formData.companyName,
+        contactPerson: formData.contactPerson,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        employeeCount: formData.employeeCount,
+        industry: formData.industry || ''
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to submit form');
-    }
-
-    const data = await response.json();
-    return {
-      success: true,
-      message: data.message || 'Registration submitted successfully!',
-    };
-  } catch (error: any) {
-    console.error('API Error:', error);
-    return {
-      success: false,
-      message: 'Failed to submit registration. Please try again.',
-      error: error.message,
-    };
-  }
-};
-
-// Alternative: Direct Google Sheets integration (if you have a backend service)
-export const submitToGoogleSheets = async (formData: CorporateFormData): Promise<ApiResponse> => {
-  try {
-    // This would connect to your Google Sheets backend service
-    const response = await fetch(`${API_BASE_URL}/api/submit-to-sheets`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...formData,
-        formType: 'corporate',
-        submissionDate: new Date().toISOString(),
-      }),
-    });
+    console.log('📥 Response status:', response.status);
+    console.log('📥 Response headers:', response.headers);
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to submit to sheets');
+      const errorText = await response.text();
+      console.error('❌ API Error:', errorText);
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
+    const result = await response.json();
+    console.log('✅ API Response:', result);
+    
     return {
-      success: true,
-      message: data.message || 'Data submitted to Google Sheets successfully!',
+      success: result.success,
+      message: result.message,
+      data: {
+        requestId: `CORP-${Date.now()}`,
+        submittedAt: new Date().toISOString(),
+        estimatedResponseTime: '24 hours'
+      }
     };
+
   } catch (error: any) {
-    console.error('Google Sheets API Error:', error);
+    console.error('❌ Error submitting corporate form:', error);
+    
+    // Return user-friendly error message
+    if (error.message.includes('Network') || error.message.includes('fetch')) {
+      return {
+        success: false,
+        message: 'Network error. Please check your internet connection and try again.'
+      };
+    }
+    
+    if (error.message.includes('timeout')) {
+      return {
+        success: false,
+        message: 'Request timeout. Please try again.'
+      };
+    }
+
     return {
       success: false,
-      message: 'Failed to submit to Google Sheets. Please try again.',
-      error: error.message,
+      message: error.message || 'An unexpected error occurred. Please try again.'
     };
-  }
-};
-
-// Mock API for testing (remove this in production)
-export const submitCorporateFormMock = async (formData: CorporateFormData): Promise<ApiResponse> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  // Simulate success (you can change this to simulate errors for testing)
-  const isSuccess = Math.random() > 0.1; // 90% success rate for testing
-  
-  if (isSuccess) {
-    console.log('Mock API - Form submitted:', formData);
-    return {
-      success: true,
-      message: 'Registration submitted successfully! Our team will contact you within 24 hours.',
-    };
-  } else {
-    throw new Error('Mock API - Simulated server error');
   }
 };

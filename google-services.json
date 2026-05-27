@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "97017388784",
+    "project_id": "mgood-c9ec5",
+    "storage_bucket": "mgood-c9ec5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97017388784:android:b25c5c42bbdd2c575e6c35",
+        "android_client_info": {
+          "package_name": "com.mgood.mgoodapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUy1By0mRGYTxc6EBIFGtZLvdvD5A427E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

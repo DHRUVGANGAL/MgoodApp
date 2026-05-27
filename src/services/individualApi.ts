@@ -1,3 +1,4 @@
+
 interface IndividualFormData {
   fullName: string;
   email: string;
@@ -17,8 +18,8 @@ interface ApiResponse {
   data?: any;
 }
 
-// Mock API endpoint - replace with your actual API endpoint
-const API_BASE_URL = 'https://your-api-endpoint.com/api';
+// API endpoint for individual requests
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
 /**
  * Submit individual healthcare request form
@@ -27,23 +28,10 @@ const API_BASE_URL = 'https://your-api-endpoint.com/api';
  */
 export const submitIndividualForm = async (formData: IndividualFormData): Promise<ApiResponse> => {
   try {
-    // For now, simulate API call with delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Simulate API response
-    const response = {
-      success: true,
-      message: 'Individual request submitted successfully',
-      data: {
-        requestId: `IND-${Date.now()}`,
-        submittedAt: new Date().toISOString(),
-        estimatedResponseTime: '24 hours'
-      }
-    };
+    console.log('📤 Submitting individual form to:', `${API_BASE_URL}/sheets/submit-individual-request`);
+    console.log('📤 Form data:', formData);
 
-    // Uncomment below when you have a real API endpoint
-    /*
-    const response = await fetch(`${API_BASE_URL}/individual-requests`, {
+    const response = await fetch(`${API_BASE_URL}/sheets/submit-individual-request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,21 +44,35 @@ export const submitIndividualForm = async (formData: IndividualFormData): Promis
       }),
     });
 
+    console.log('📥 Response status:', response.status);
+    console.log('📥 Response headers:', response.headers);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('❌ API Error:', errorText);
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
     }
 
     const result = await response.json();
-    return result;
-    */
-
-    return response;
+    console.log('✅ API Response:', result);
+    
+    // Your API returns: { "success": true, "message": "Individual service request submitted successfully" }
+    // We'll add some additional data for the app
+    return {
+      success: result.success,
+      message: result.message,
+      data: {
+        requestId: `IND-${Date.now()}`,
+        submittedAt: new Date().toISOString(),
+        estimatedResponseTime: '24 hours'
+      }
+    };
 
   } catch (error: any) {
-    console.error('Error submitting individual form:', error);
+    console.error('❌ Error submitting individual form:', error);
     
     // Return user-friendly error message
-    if (error.message.includes('Network')) {
+    if (error.message.includes('Network') || error.message.includes('fetch')) {
       return {
         success: false,
         message: 'Network error. Please check your internet connection and try again.'

@@ -1,8 +1,8 @@
-import { Colors } from '../../config/constants/Colors';
+import { Colors } from '@/constants/Colors';
 
 export const lightColors = {
-  primary: Colors.light.primary,
-  secondary: Colors.light.secondary,
+  primary: Colors.light.tint,
+  secondary: Colors.light.secondaryText,
   background: Colors.light.background,
   text: Colors.light.text,
   border: Colors.light.border,
@@ -12,8 +12,8 @@ export const lightColors = {
 };
 
 export const darkColors = {
-  primary: Colors.dark.primary,
-  secondary: Colors.dark.secondary,
+  primary: Colors.dark.tint,
+  secondary: Colors.dark.secondaryText,
   background: Colors.dark.background,
   text: Colors.dark.text,
   border: Colors.dark.border,

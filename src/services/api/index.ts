@@ -19,7 +19,7 @@ export class ApiService {
     }
   }
 
-  async post<T>(endpoint: string, data: any, headers: Record<string,string> = {}): Promise<T> {
+  async post<T>(endpoint: string, data: any, headers: Record<string, string> = {}): Promise<T> {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: 'POST',
@@ -41,4 +41,4 @@ export class ApiService {
 }
 
 // Export a default instance
-export const apiService = new ApiService(process.env.EXPO_PUBLIC_API_URL || 'https://api.example.com');
+export const apiService = new ApiService(process.env.EXPO_PUBLIC_API_URL!);

@@ -1,7 +1,7 @@
 import { Redirect } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { getToken } from '../src/services/auth';
+import { getToken } from '@/services/auth';
 
 export default function AppGate() {
   const [ready, setReady] = useState(false);
@@ -23,7 +23,7 @@ export default function AppGate() {
     );
   }
 
-  if (!isAuthed) return <Redirect href="/auth" />;
-  return <Redirect href="/(tabs)" />;
+  if (!isAuthed) return <Redirect href="/login" />;
+  return <Redirect href="/home" />;
 }
 

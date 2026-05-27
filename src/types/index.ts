@@ -13,4 +13,6 @@ export interface ThemeColors {
   border: string;
 }
 
+// (notifications removed)
+
 // Add more type definitions as needed
